@@ -27,12 +27,14 @@ class LinkController extends Controller
             ]);
         }
 
+        $link->increment('requested_count');
+
         return response()->json([
             'data' => [
                 'original_url' => $link->original_url,
                 'shortened_url' => env('CLIENT_URL') . $link->code,
                 'code' => $link->code
             ]
-        ]);
+        ], 200);
     }
 }

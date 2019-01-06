@@ -47,4 +47,29 @@ class LinkCreationTest extends TestCase
         ])
         ->assertResponseStatus(200);
     }
+
+    public function test_link_is_only_shortened_once()
+    {
+        $link = 'http://www.google.com';
+
+        $this->json('POST', '/', ['url' => $link]);
+        $this->json('POST', '/', ['url' => $link]);
+
+        $link = Link::where('original_url', $link)->get();
+
+        $this->assertEquals(1, $link->count());
+    }
+
+    public function test_requested_count_is_incremented()
+    {
+        $link = 'http://www.google.com';
+
+        $this->json('POST', '/', ['url' => $link]);
+        $this->json('POST', '/', ['url' => $link]);
+
+        $this->seeInDatabase('links', [
+            'original_url' => $link,
+            'requested_count' => 2
+        ]);
+    }
 }
