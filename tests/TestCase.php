@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
+
 abstract class TestCase extends Laravel\Lumen\Testing\TestCase
 {
     /**
@@ -11,4 +13,16 @@ abstract class TestCase extends Laravel\Lumen\Testing\TestCase
     {
         return require __DIR__.'/../bootstrap/app.php';
     }
+
+    // public function setUp()
+    // {
+    //     parent::setUp();
+    //     Artisan::call('migrate');
+    // }
+    //
+    // public function tearDown()
+    // {
+    //     Artisan::call('migrate:reset');
+    //     parent::tearDown();
+    // }
 }
