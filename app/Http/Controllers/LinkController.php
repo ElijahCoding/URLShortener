@@ -29,7 +29,7 @@ class LinkController extends Controller
 
         return response()->json([
             'data' => [
-                'original_url' => $link->url,
+                'original_url' => $link->original_url,
                 'shortened_url' => env('CLIENT_URL') . $link->code,
                 'code' => $link->code
             ]

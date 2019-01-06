@@ -24,15 +24,15 @@ class LinkCreationTest extends TestCase
             ])
             ->notSeeInDatabase('links', [
                 'code' => '1'
-            ]);
-            // ->seeJson(['url' => ['Hmm, that doesn\'t look like a valid URL.']])
-            // ->assertResponseStatus(422);
+            ])
+            ->seeJson(['url' => ['Hmm, that doesn\'t look like a valid URL.']])
+            ->assertResponseStatus(422);
     }
 
     public function test_link_can_be_shortened()
     {
         $this->json('POST', '/', [
-            'url' => 'www.google.com'
+            'url' => 'http://www.google.com'
         ])
         ->seeInDatabase('links', [
             'original_url' => 'http://www.google.com',
@@ -41,7 +41,7 @@ class LinkCreationTest extends TestCase
         ->seeJson([
             'data' => [
                 'original_url' => 'http://www.google.com',
-                'shortened_url' => env('CLIENT_URL') . '/1',
+                'shortened_url' => env('CLIENT_URL') . '1',
                 'code' => '1'
             ]
         ])
