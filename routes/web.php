@@ -1,3 +1,3 @@
 <?php
 
-$app->post('/', 'LinkController@store');
+$router->post('/', 'LinkController@store');

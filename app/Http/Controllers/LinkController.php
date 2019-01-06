@@ -15,5 +15,24 @@ class LinkController extends Controller
             'url.required' => 'Please enter a URL to shorten.',
             'url.url' => 'Hmm, that doesn\'t look like a valid URL.'
         ]);
+
+        $link = Link::firstOrNew([
+            'original_url' => $request->get('url')
+        ]);
+
+        if (!$link->exists) {
+            $link->save();
+            $link->update([
+                'code' => $link->getCode()
+            ]);
+        }
+
+        return response()->json([
+            'data' => [
+                'original_url' => $link->url,
+                'shortened_url' => env('CLIENT_URL') . $link->code,
+                'code' => $link->code
+            ]
+        ]);
     }
 }
