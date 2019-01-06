@@ -22,4 +22,13 @@ class Link extends Model
     {
         return static::where('code', $code);
     }
+
+    public function shortenedUrl()
+    {
+        if ($this->code === null) {
+            return null;
+        }
+        
+        return env('CLIENT_URL') . $this->code;
+    }
 }
