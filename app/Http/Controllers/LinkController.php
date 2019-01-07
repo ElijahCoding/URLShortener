@@ -7,6 +7,17 @@ use Illuminate\Http\Request;
 
 class LinkController extends Controller
 {
+    public function show(Request $request)
+    {
+        $code = $request->get('code');
+
+        $link = Link::byCode($code)->firstOrFail();
+
+        $link->increment('used_count');
+
+        return $this->linkResponse($link);
+    }
+
     public function store(Request $request)
     {
         $this->validate($request, [
