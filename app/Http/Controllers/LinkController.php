@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Cache;
 use App\Link;
 use Illuminate\Http\Request;
 
@@ -11,7 +12,9 @@ class LinkController extends Controller
     {
         $code = $request->get('code');
 
-        $link = Link::byCode($code)->firstOrFail();
+        $link = Cache::rememberForever("link.{$code}", function () use ($code) {
+            return Link::byCode($code)->firstOrFail();
+        });
 
         $link->increment('used_count');
 
