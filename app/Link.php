@@ -10,6 +10,8 @@ class Link extends Model
 {
     protected $guarded = [];
 
+    protected $dates = ['last_requested', 'last_used'];
+
     public function getCode()
     {
         if ($this->id === null) {
@@ -28,7 +30,7 @@ class Link extends Model
         if ($this->code === null) {
             return null;
         }
-        
+
         return env('CLIENT_URL') . $this->code;
     }
 }
