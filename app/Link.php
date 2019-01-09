@@ -5,9 +5,12 @@ namespace App;
 use App\Helpers\Math;
 use App\Exceptions\CodeGenerationException;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Eloquent\TouchesTimestamps;
 
 class Link extends Model
 {
+    use TouchesTimestamps;
+    
     protected $guarded = [];
 
     protected $dates = ['last_requested', 'last_used'];

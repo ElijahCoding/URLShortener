@@ -72,4 +72,19 @@ class LinkCreationTest extends TestCase
             'requested_count' => 2
         ]);
     }
+
+    public function test_last_requested_date_is_updated_for_existing_link()
+    {
+        Link::flushEventListeners();
+        
+        $link = factory(Link::class)->create([
+            'last_requested' => Carbon::now()->subDays(2)
+        ]);
+
+        $this->json('POST', '/', ['url' => $link->original_url])
+             ->seeInDatabase('links', [
+                 'original_url' => $link->original_url,
+                 'last_requested' => Carbon::now()->toDateTimeString()
+             ]);
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Cache;
 use App\Link;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class LinkController extends Controller
@@ -17,6 +18,8 @@ class LinkController extends Controller
         });
 
         $link->increment('used_count');
+
+        $link->touchTimestamp('last_used');
 
         return $this->linkResponse($link);
     }
@@ -39,6 +42,8 @@ class LinkController extends Controller
         }
 
         $link->increment('requested_count');
+
+        $link->touchTimestamp('last_requested');
 
         return $this->linkResponse($link);
     }
